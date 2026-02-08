@@ -1,0 +1,133 @@
+/* ============================================================================= 
+   Panels
+   =============================================================================  */
+
+/* Adds a border highlight to the active panel. */
+.mod-root
+  .workspace-tabs:not(.mod-stacked, :only-of-type).mod-active
+  .workspace-tab-header-container {
+  border-bottom: 2px solid var(--color-accent);
+}
+
+.mod-root .workspace-tab-header-container-inner {
+  border-bottom: 2px solid transparent;
+}
+
+/* Dims editor panels which are not in an active state. */
+.mod-root
+  .workspace-tabs:not(.mod-active, :only-of-type)
+  .workspace-leaf-content[data-type='markdown'] {
+  opacity: 0.6;
+  transition: var(--anim-duration-slow);
+}
+
+/* ============================================================================= 
+   Editor
+   =============================================================================  */
+
+/* Inline Title
+   =====================================================  */
+
+/* Underline hover preview titles in all editor modes. */
+.inline-title {
+  color: var(--bold-color);
+  text-decoration: underline;
+}
+
+/* Frontmatter
+   =====================================================  */
+
+/* Adjust frontmatter container (live preview mode). */
+.metadata-container {
+  padding: 0;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+
+/* Remove frontmatter's heading title (live preview mode). */
+.metadata-properties-heading:not(.is-collapsed) > .metadata-properties-title {
+  display: none;
+}
+
+/* Collapse frontmatter's heading box when its content is "empty" (live preview mode). */
+.metadata-properties-heading:not(.is-collapsed) {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove frontmatter's add button (live preview mode). */
+.metadata-content > .metadata-add-button {
+  display: none;
+}
+
+/* Disable frontmatter's hover effects over properties (live preview mode). */
+body .metadata-property:focus-within,
+body .metadata-property:hover {
+  box-shadow: none;
+}
+
+/* Adjust frontmatter property icons (live preview mode). */
+.metadata-property-icon > .svg-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Adjust frontmatter's font (live preview mode). */
+.metadata-property > .metadata-property-key,
+.metadata-property > .metadata-property-value {
+  font-family: var(--font-monospace);
+  font-size: 10px;
+}
+
+/* Hide remove button on frontmatter values. */
+.multi-select-pill-remove-button:not(:hover) {
+  opacity: 1;
+}
+
+.multi-select-pill .multi-select-pill-remove-button {
+  margin-left: -3px;
+  color: var(--hover-accent);
+}
+
+/* Widens frontmatter's "---" delimiters (source mode). */
+.cm-hmd-frontmatter.cm-hmd-frontmatter.cm-def {
+  letter-spacing: 0.1rem;
+}
+
+/* Highlights and Underlines
+   =====================================================  */
+
+/* Turn highlights into underlines across editor modes. */
+.markdown-rendered mark,
+.markdown-source-view span.cm-highlight {
+  text-decoration-line: underline;
+  background-color: transparent;
+}
+
+/* Links
+   =====================================================  */
+
+/* Remove text decoration on internal links across editor modes. */
+.metadata-property-value .internal-link,
+.markdown-rendered .internal-link,
+.markdown-source-view .cm-hmd-internal-link > .cm-underline {
+  text-decoration: none;
+}
+
+/* Callouts
+   =====================================================  */
+
+/* Remove edit button on callouts (live preview). */
+.markdown-source-view.mod-cm6 .edit-block-button {
+  display: none;
+}
+
+/* ============================================================================= 
+   Core Plugins
+   =============================================================================  */
+
+/* Reveal note titles in page preview popovers. */
+.hover-popover .inline-title {
+  display: block;
+}
