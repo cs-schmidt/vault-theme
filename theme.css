@@ -1,133 +1,375 @@
-/* ============================================================================= 
-   Panels
-   =============================================================================  */
+/* ==========================================================================
+   Base
+   ========================================================================== */
 
-/* Adds a border highlight to the active panel. */
-.mod-root
-  .workspace-tabs:not(.mod-stacked, :only-of-type).mod-active
-  .workspace-tab-header-container {
-  border-bottom: 2px solid var(--color-accent);
+body {
+  /* Base Color Palette */
+  --gs-l-max: 0.9219;
+  --gs-l-min: 0.2002;
+  --gs-l-gap: calc(var(--gs-l-max) - var(--gs-l-min));
+  --gs-floor: oklch(var(--gs-l-min) 0 0deg);
+
+  /* Type */
+  --font-interface: 'IBM Plex Sans Condensed', 'Jost', var(--font-default);
+  --font-text: 'Chivo', 'Rubik', var(--font-default);
+  --font-monospace: 'Source Code Pro', var(--font-monospace-default);
+  --font-scale-ratio: 1.11;
+  --h1-size: calc(var(--font-text-size) * pow(var(--font-scale-ratio), 6));
+  --h2-size: calc(var(--font-text-size) * pow(var(--font-scale-ratio), 5));
+  --h3-size: calc(var(--font-text-size) * pow(var(--font-scale-ratio), 4));
+  --h4-size: calc(var(--font-text-size) * pow(var(--font-scale-ratio), 3));
+  --h5-size: calc(var(--font-text-size) * pow(var(--font-scale-ratio), 2));
+  --h6-size: calc(var(--font-text-size) * pow(var(--font-scale-ratio), 1));
+  --inline-title-size: calc(var(--h1-size) * var(--font-scale-ratio));
+  --inline-title-line-height: 1;
+  --inline-title-margin-bottom: 8px;
+  --line-height-normal: 1.55;
+  --bold-modifier: 300;
+  --code-size: 0.875em;
+  --callout-title-size: var(--h6-size);
+
+  /* Box */
+  --radius-s: 4px;
+
+  /* Window */
+  --tab-font-size: var(--font-text-size);
+
+  /* Editor */
+  --file-margins-y: 24px;
+  --metadata-padding: 0;
+  --metadata-gap: 1px;
+  --metadata-label-font: var(--font-monospace);
+  --metadata-input-font: var(--font-monospace);
+  --metadata-label-font-size: 8.8px;
+  --metadata-input-font-size: 8.8px;
+  --heading-spacing: 12px;
+  --link-decoration: none;
+  --callout-border-width: 1px;
+  --callout-padding: 0;
+  --callout-border-opacity: 0.4;
+  --hr-color: var(--color-base-25);
+  --hr-thickness: 2px;
 }
+
+.theme-dark {
+  /* Base Color Palette */
+  --color-base-00: oklch(from var(--gs-floor) calc(l + 0 * var(--gs-l-gap)) c h);
+  --color-base-05: oklch(from var(--gs-floor) calc(l + 0.05 * var(--gs-l-gap)) c h);
+  --color-base-10: oklch(from var(--gs-floor) calc(l + 0.1 * var(--gs-l-gap)) c h);
+  --color-base-15: oklch(from var(--gs-floor) calc(l + 0.15 * var(--gs-l-gap)) c h);
+  --color-base-20: oklch(from var(--gs-floor) calc(l + 0.2 * var(--gs-l-gap)) c h);
+  --color-base-25: oklch(from var(--gs-floor) calc(l + 0.25 * var(--gs-l-gap)) c h);
+  --color-base-30: oklch(from var(--gs-floor) calc(l + 0.3 * var(--gs-l-gap)) c h);
+  --color-base-35: oklch(from var(--gs-floor) calc(l + 0.35 * var(--gs-l-gap)) c h);
+  --color-base-40: oklch(from var(--gs-floor) calc(l + 0.4 * var(--gs-l-gap)) c h);
+  --color-base-45: oklch(from var(--gs-floor) calc(l + 0.45 * var(--gs-l-gap)) c h);
+  --color-base-50: oklch(from var(--gs-floor) calc(l + 0.5 * var(--gs-l-gap)) c h);
+  --color-base-60: oklch(from var(--gs-floor) calc(l + 0.6 * var(--gs-l-gap)) c h);
+  --color-base-70: oklch(from var(--gs-floor) calc(l + 0.7 * var(--gs-l-gap)) c h);
+  --color-base-75: oklch(from var(--gs-floor) calc(l + 0.75 * var(--gs-l-gap)) c h);
+  --color-base-90: oklch(from var(--gs-floor) calc(l + 0.9 * var(--gs-l-gap)) c h);
+  --color-base-100: oklch(from var(--gs-floor) calc(l + 1 * var(--gs-l-gap)) c h);
+  --accent-h: 165;
+  --accent-s: 75.7%;
+  --accent-l: 66.1%;
+  --accent-meta: oklch(72.25% 0.1007 172.74deg);
+
+  /* Type Color Palette */
+  --text-on-accent: var(--color-base-05);
+
+  /* Editor Color Palette */
+  --bold-color: oklch(86.06% 0.103 141.48deg);
+}
+
+.theme-light {
+  /* Base Color Palette */
+  --color-base-00: oklch(from var(--gs-floor) calc(l + 1 * var(--gs-l-gap)) c h);
+  --color-base-05: oklch(from var(--gs-floor) calc(l + 0.95 * var(--gs-l-gap)) c h);
+  --color-base-10: oklch(from var(--gs-floor) calc(l + 0.9 * var(--gs-l-gap)) c h);
+  --color-base-15: oklch(from var(--gs-floor) calc(l + 0.85 * var(--gs-l-gap)) c h);
+  --color-base-20: oklch(from var(--gs-floor) calc(l + 0.8 * var(--gs-l-gap)) c h);
+  --color-base-25: oklch(from var(--gs-floor) calc(l + 0.75 * var(--gs-l-gap)) c h);
+  --color-base-30: oklch(from var(--gs-floor) calc(l + 0.7 * var(--gs-l-gap)) c h);
+  --color-base-35: oklch(from var(--gs-floor) calc(l + 0.65 * var(--gs-l-gap)) c h);
+  --color-base-40: oklch(from var(--gs-floor) calc(l + 0.6 * var(--gs-l-gap)) c h);
+  --color-base-50: oklch(from var(--gs-floor) calc(l + 0.5 * var(--gs-l-gap)) c h);
+  --color-base-60: oklch(from var(--gs-floor) calc(l + 0.4 * var(--gs-l-gap)) c h);
+  --color-base-70: oklch(from var(--gs-floor) calc(l + 0.3 * var(--gs-l-gap)) c h);
+  --color-base-75: oklch(from var(--gs-floor) calc(l + 0.25 * var(--gs-l-gap)) c h);
+  --color-base-90: oklch(from var(--gs-floor) calc(l + 0.1 * var(--gs-l-gap)) c h);
+  --color-base-100: oklch(from var(--gs-floor) calc(l + 0 * var(--gs-l-gap)) c h);
+  --accent-h: 196;
+  --accent-s: 98.2%;
+  --accent-l: 31.2%;
+  --accent-meta: oklch(from var(--color-accent) l calc(c - 0.045) h);
+
+  /* Type Color Palette */
+  --text-on-accent: var(--color-base-00);
+
+  /* Editor Color Palette */
+  --bold-color: oklch(23.73% 0.0791 141.61deg);
+}
+
+.theme-dark,
+.theme-light {
+  /* Window Color Palette */
+  --titlebar-background: var(--color-base-10);
+  --titlebar-background-focused: var(--color-base-10);
+  --titlebar-text-color: var(--color-base-70);
+  --titlebar-text-color-focused: var(--color-base-70);
+  --tab-container-background: var(--color-base-10);
+  --background-secondary: var(--color-base-05);
+  --divider-color: var(--color-base-20);
+
+  /* Editor Color Palette */
+  --text-highlight-bg: transparent;
+  --code-background: var(--color-base-10);
+
+  /* Component Color Palette */
+  --toggle-thumb-color: var(--color-base-05);
+}
+
+/* ==========================================================================
+   Window
+   ========================================================================== */
+
+/* Main Tabs/Views
+   ------------------------------------------------------ */
 
 .mod-root .workspace-tab-header-container-inner {
-  border-bottom: 2px solid transparent;
+  margin-top: 4.5px;
 }
 
-/* Dims editor panels which are not in an active state. */
-.mod-root
-  .workspace-tabs:not(.mod-active, :only-of-type)
-  .workspace-leaf-content[data-type='markdown'] {
-  opacity: 0.6;
+.mod-root.mod-root .workspace-tab-header {
+  padding-top: 0;
+  padding-bottom: 4.5px;
+  background-color: transparent;
+}
+
+.mod-root .workspace-tab-header.is-active {
+  --tab-outline-color: none;
+}
+
+.mod-root .workspace-tab-header .workspace-tab-header-inner {
+  border: 1px solid var(--divider-color);
+}
+
+.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner {
+  background-color: var(--tab-background-active);
+  border: 1px solid var(--color-base-30);
+}
+
+.mod-root .workspace-tab-header-inner::after {
+  display: none;
+}
+
+.workspace-tab-header-inner-close-button,
+.workspace-tab-header-status-icon,
+.mod-root .mod-pinned,
+.mod-root .workspace-tab-inner-close-button {
+  --icon-size: 14px;
+}
+
+.workspace-tabs:not(.mod-active) .workspace-leaf-content[data-type='markdown'] {
+  opacity: 0.75;
   transition: var(--anim-duration-slow);
 }
 
-/* ============================================================================= 
-   Editor
-   =============================================================================  */
+/* Status Bar
+   ------------------------------------------------------ */
 
-/* Inline Title
-   =====================================================  */
-
-/* Underline hover preview titles in all editor modes. */
-.inline-title {
-  color: var(--bold-color);
-  text-decoration: underline;
+.status-bar {
+  display: none;
 }
+
+/* ==========================================================================
+   Editor
+   ========================================================================== */
 
 /* Frontmatter
-   =====================================================  */
+   ------------------------------------------------------ */
 
-/* Adjust frontmatter container (live preview mode). */
 .metadata-container {
-  padding: 0;
-  border: 1px solid gray;
-  border-radius: 4px;
+  margin-block-end: 8px;
+  border-top: 1px solid var(--color-base-20);
+  border-bottom: 1px solid var(--color-base-20);
 }
 
-/* Remove frontmatter's heading title (live preview mode). */
+.metadata-properties-heading {
+  margin: 0;
+}
+
+.metadata-properties-heading:not(.is-collapsed) {
+  display: block;
+  padding: 0;
+}
+
+.metadata-properties-title {
+  font-family: var(--font-monospace);
+  font-size: var(--code-size);
+  color: var(--color-base-75);
+}
+
 .metadata-properties-heading:not(.is-collapsed) > .metadata-properties-title {
   display: none;
 }
 
-/* Collapse frontmatter's heading box when its content is "empty" (live preview mode). */
-.metadata-properties-heading:not(.is-collapsed) {
-  display: block;
-  margin: 0;
-  padding: 0;
-}
-
-/* Remove frontmatter's add button (live preview mode). */
-.metadata-content > .metadata-add-button {
-  display: none;
-}
-
-/* Disable frontmatter's hover effects over properties (live preview mode). */
-body .metadata-property:focus-within,
-body .metadata-property:hover {
+.metadata-property:focus-within,
+.metadata-property:hover {
   box-shadow: none;
 }
 
-/* Adjust frontmatter property icons (live preview mode). */
 .metadata-property-icon > .svg-icon {
-  width: 14px;
-  height: 14px;
+  --icon-size: 14px;
 }
 
-/* Adjust frontmatter's font (live preview mode). */
-.metadata-property > .metadata-property-key,
-.metadata-property > .metadata-property-value {
-  font-family: var(--font-monospace);
-  font-size: 10px;
+.metadata-property-value[data-property-type='tags'] .multi-select-pill-content {
+  margin-inline-end: var(--pill-padding-x);
 }
 
-/* Hide remove button on frontmatter values. */
-.multi-select-pill-remove-button:not(:hover) {
-  opacity: 1;
+.metadata-property-value:is(
+    [data-property-type='aliases'],
+    [data-property-type='multitext']
+  )
+  .multi-select-pill-content {
+  padding: 0.125em 0.65em;
+  border: 1px solid var(--color-base-20);
+  border-radius: 6px;
+  border-radius: 2em;
 }
 
-.multi-select-pill .multi-select-pill-remove-button {
-  margin-left: -3px;
-  color: var(--hover-accent);
+.metadata-property-value[data-property-type='tags'] .multi-select-pill-content,
+.metadata-property-value .multi-select-pill-content.internal-link {
+  color: var(--accent-meta);
 }
 
-/* Widens frontmatter's "---" delimiters (source mode). */
+.metadata-input-longtext,
+.metadata-property-value .multi-select-pill {
+  color: var(--color-base-75);
+}
+
+.metadata-property-value .multi-select-pill-remove-button,
+.metadata-add-button {
+  display: none;
+}
+
+/* Widen frontmatter delimiters ("---") in source mode. */
 .cm-hmd-frontmatter.cm-hmd-frontmatter.cm-def {
   letter-spacing: 0.1rem;
 }
 
-/* Highlights and Underlines
-   =====================================================  */
+/* Emphasis
+   ------------------------------------------------------ */
 
 /* Turn highlights into underlines across editor modes. */
-.markdown-rendered mark,
-.markdown-source-view span.cm-highlight {
-  text-decoration-line: underline;
-  background-color: transparent;
+mark,
+.cm-highlight {
+  text-decoration: underline;
 }
 
-/* Links
-   =====================================================  */
-
-/* Remove text decoration on internal links across editor modes. */
-.metadata-property-value .internal-link,
-.markdown-rendered .internal-link,
-.markdown-source-view .cm-hmd-internal-link > .cm-underline {
-  text-decoration: none;
+/* Maintain code background color when underlined. */
+.markdown-source-view .cm-highlight.cm-inline-code {
+  background-color: var(--code-background);
 }
 
 /* Callouts
-   =====================================================  */
+   ------------------------------------------------------ */
 
-/* Remove edit button on callouts (live preview). */
-.markdown-source-view.mod-cm6 .edit-block-button {
+.callout {
+  background-color: rgba(var(--callout-color), 0.025);
+}
+
+.callout-title {
+  padding: 8px;
+  background-color: rgba(var(--callout-color), 0.1);
+}
+
+.callout-content {
+  padding: 8px;
+  border-top: inherit;
+  border-top-style: dashed;
+}
+
+.markdown-source-view .cm-callout .edit-block-button {
   display: none;
 }
 
-/* ============================================================================= 
+/* Images
+   ------------------------------------------------------ */
+
+/* Center "non-emoji" embedded images horizontally. */
+.image-embed img {
+  display: block;
+  margin: 0 auto !important;
+}
+
+/* Footnotes
+   ------------------------------------------------------ */
+
+.footnotes hr {
+  margin: 12px 0;
+  border-top-width: 1px;
+}
+
+.markdown-preview-view .footnotes ol {
+  color: var(--color-base-90);
+}
+
+/* ==========================================================================
    Core Plugins
-   =============================================================================  */
+   ========================================================================== */
+
+/* Bookmarks
+   ------------------------------------------------------ */
+
+.workspace-split:has(> .workspace-sidedock-vault-profile)
+  .workspace-leaf-content[data-type='bookmarks']
+  .view-content {
+  padding-bottom: 4px;
+}
+
+/* Canvas
+   ------------------------------------------------------ */
+
+.canvas-card-menu {
+  display: none;
+}
+
+/* Page Preview
+   ------------------------------------------------------ */
 
 /* Reveal note titles in page preview popovers. */
 .hover-popover .inline-title {
   display: block;
+}
+
+/* ==========================================================================
+   Community Plugins
+   ========================================================================== */
+
+/* Breadcrumbs
+   ------------------------------------------------------ */
+
+.BC-trail-view .BC-trail-view-path .BC-trail-view-item-separator::before {
+  content: '⟸';
+  font-weight: 800;
+  color: var(--color-base-45);
+}
+
+.markdown-source-view .BC-page-views .BC-trail-view,
+.markdown-preview-view .BC-page-views .BC-trail-view {
+  --link-color: var(--accent-meta);
+
+  padding: 4px 0 4px 4px;
+
+  font-size: calc(var(--font-text-size) * pow(var(--font-scale-ratio), -1.5));
+
+  border-color: var(--color-base-15);
+  border-right: none;
+  border-left: none;
+  border-radius: 0;
+}
+
+.markdown-preview-view .metadata-container {
+  transform: none;
 }
