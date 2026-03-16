@@ -9,7 +9,7 @@ body {
   --gs-l-gap: calc(var(--gs-l-max) - var(--gs-l-min));
   --gs-floor: oklch(var(--gs-l-min) 0 0deg);
 
-  /* Type */
+  /* Typography */
   --font-interface: 'IBM Plex Sans Condensed', 'Jost', var(--font-default);
   --font-text: 'Chivo', 'Rubik', var(--font-default);
   --font-monospace: 'Source Code Pro', var(--font-monospace-default);
@@ -21,14 +21,14 @@ body {
   --h5-size: calc(var(--font-text-size) * pow(var(--font-scale-ratio), 2));
   --h6-size: calc(var(--font-text-size) * pow(var(--font-scale-ratio), 1));
   --inline-title-size: calc(var(--h1-size) * var(--font-scale-ratio));
-  --inline-title-line-height: 1;
+  --inline-title-line-height: 1.1;
   --inline-title-margin-bottom: 8px;
   --line-height-normal: 1.55;
-  --bold-modifier: 300;
+  --bold-modifier: 200;
   --code-size: 0.875em;
   --callout-title-size: var(--h6-size);
 
-  /* Box */
+  /* Box Model */
   --radius-s: 4px;
 
   /* Window */
@@ -74,7 +74,7 @@ body {
   --accent-l: 66.1%;
   --accent-meta: oklch(72.25% 0.1007 172.74deg);
 
-  /* Type Color Palette */
+  /* Typography Color Palette */
   --text-on-accent: var(--color-base-05);
 
   /* Editor Color Palette */
@@ -103,7 +103,7 @@ body {
   --accent-l: 31.2%;
   --accent-meta: oklch(from var(--color-accent) l calc(c - 0.045) h);
 
-  /* Type Color Palette */
+  /* Typography Color Palette */
   --text-on-accent: var(--color-base-00);
 
   /* Editor Color Palette */
@@ -261,44 +261,122 @@ body {
 /* Emphasis
    ------------------------------------------------------ */
 
-/* Turn highlights into underlines across editor modes. */
+/* TODO: Fix integration of inline code with surrounding text: match baseline, underline 
+         position, and spacing. */
+
+/* Convert highlights into underlines. */
 mark,
 .cm-highlight {
   text-decoration: underline;
 }
 
-/* Maintain code background color when underlined. */
+/* Perserve color on underlined resolved internal links in reading mode. */
+.markdown-rendered mark .internal-link {
+  color: var(--link-color);
+}
+
+/* Preserve inline code background color when underlined. */
 .markdown-source-view .cm-highlight.cm-inline-code {
   background-color: var(--code-background);
+}
+
+/* Fix color on underlined bold text in preview mode. */
+.cm-s-obsidian span.cm-highlight.cm-strong {
+  color: var(--bold-color);
+}
+
+/* Fix color on underlined resolved internal links and external links in preview mode. */
+.cm-s-obsidian span.cm-highlight.cm-hmd-internal-link {
+  color: var(--link-color);
+}
+
+/* Make underlines on emphasized text inherit color. */
+.markdown-rendered mark :is(strong, em, .internal-link, code) {
+  text-decoration-line: underline;
+}
+
+.markdown-rendered mark .internal-link.is-unresolved {
+  text-decoration-color: var(--link-unresolved-color);
 }
 
 /* Callouts
    ------------------------------------------------------ */
 
-.callout {
-  background-color: rgba(var(--callout-color), 0.025);
+.callout-title {
+  padding: 8px 12px;
+  background-color: transparent;
 }
 
-.callout-title {
-  padding: 8px;
-  background-color: rgba(var(--callout-color), 0.1);
+.callout-title .svg-icon {
+  --icon-size: calc(1em * var(--line-height-tight));
+
+  color: var(--callout-color-shift);
+}
+
+.callout-title-inner {
+  font-weight: 600;
+  vertical-align: middle;
 }
 
 .callout-content {
-  padding: 8px;
+  padding: 0 12px;
   border-top: inherit;
   border-top-style: dashed;
+}
+
+.callout[data-callout='formal'] {
+  --callout-icon: scroll-text;
+  --callout-color: 158, 158, 158;
+}
+
+.theme-light .callout[data-callout='formal'] {
+  --callout-color: 114, 114, 114;
+}
+
+.callout[data-callout='formal'] .callout-title-inner {
+  --bold-color: var(--callout-title-color);
+}
+
+.theme-dark .callout {
+  --callout-color-shift: oklch(
+    from rgb(var(--callout-color)) calc(l + 0.1) calc(c - 0.05) h
+  );
+  --callout-border-color-shift: oklch(
+    from var(--callout-color-shift) l c h / var(--callout-border-opacity)
+  );
+
+  background-color: rgba(var(--callout-color), 0.025);
+  border-color: var(--callout-border-color-shift);
+}
+
+.theme-dark .callout-title {
+  color: var(--callout-color-shift);
+}
+
+.theme-dark .callout-content {
+  border-top-color: var(--callout-border-color-shift);
 }
 
 .markdown-source-view .cm-callout .edit-block-button {
   display: none;
 }
 
+/* Tables
+   ------------------------------------------------------ */
+
+/* Center tables horizontally. */
+.table-wrapper,
+table {
+  margin-right: auto;
+  margin-left: auto;
+}
+
 /* Images
    ------------------------------------------------------ */
 
 /* Center "non-emoji" embedded images horizontally. */
-.image-embed img {
+.markdown-preview-view .image-embed,
+.markdown-source-view.mod-cm6 .image-embed {
   display: block;
   margin: 0 auto !important;
 }
