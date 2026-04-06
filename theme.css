@@ -285,6 +285,11 @@ mark,
   color: var(--bold-color);
 }
 
+/* Fix color of bold italicized text in source mode. */
+.cm-strong.cm-em {
+  color: var(--bold-color);
+}
+
 /* Fix color on underlined resolved internal links and external links in preview mode. */
 .cm-s-obsidian span.cm-highlight.cm-hmd-internal-link {
   color: var(--link-color);
