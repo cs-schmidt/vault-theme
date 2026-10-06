@@ -261,9 +261,6 @@ body {
 /* Emphasis
    ------------------------------------------------------ */
 
-/* TODO: Fix integration of inline code with surrounding text: match baseline, underline 
-         position, and spacing. */
-
 /* Convert highlights into underlines. */
 mark,
 .cm-highlight {
@@ -306,6 +303,9 @@ mark,
 
 /* Callouts
    ------------------------------------------------------ */
+
+/* TODO: Add color variations to callouts that fit with the theme (check light and dark
+         modes). */
 
 .callout-title {
   padding: 8px 12px;
@@ -380,8 +380,9 @@ table {
    ------------------------------------------------------ */
 
 /* Center "non-emoji" embedded images horizontally. */
-.markdown-preview-view .image-embed,
-.markdown-source-view.mod-cm6 .image-embed {
+.markdown-source-view.mod-cm6 .image-embed,
+.markdown-source-view .image-embed > img,
+.markdown-preview-view .image-embed > img {
   display: block;
   margin: 0 auto !important;
 }

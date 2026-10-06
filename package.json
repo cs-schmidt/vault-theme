@@ -2,9 +2,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "clean-code": "npm run lint && npm run format",
-    "lint": "stylelint \"**/*.css\" --ignore-path .cleanignore --fix",
-    "format": "prettier --ignore-unknown --ignore-path .cleanignore --write ."
+    "clean-code:check": "npm run lint:check && npm run format:check",
+    "clean-code:fix": "npm run lint:fix && npm run format:fix",
+    "lint:check": "stylelint \"**/*.css\" --ignore-path .toolignore",
+    "lint:fix": "stylelint \"**/*.css\" --ignore-path .toolignore --fix",
+    "format:check": "prettier --ignore-unknown --ignore-path .toolignore --check .",
+    "format:fix": "prettier --ignore-unknown --ignore-path .toolignore --write ."
   },
   "devDependencies": {
     "prettier": "^3.3.3",
