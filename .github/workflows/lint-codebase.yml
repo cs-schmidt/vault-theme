@@ -11,13 +11,12 @@ permissions:
   contents: read
 
 # Cancel stale or duplicate runs for the same workflow and branch, scoped by:
-#   1. Workflow file path (stripped of '@refs/...') to prevent name collisions while
-#      matching PRs and pushes to the same group.
+#   1. Workflow name, so each workflow file needs a unique `name:`.
 #   2. Source repository, so external forks using identical branch names (e.g., 'main')
 #      don't cancel each other.
 #   3. Normalized branch name across pull_request and push events.
 concurrency:
-  group: ${{ split(github.workflow_ref, '@')[0] }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
