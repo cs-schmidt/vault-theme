@@ -1,6 +1,6 @@
 printWidth: 90
-useTabs: false
 tabWidth: 2
-singleQuote: true
+useTabs: false
 semi: true
+singleQuote: true
 endOfLine: 'lf'

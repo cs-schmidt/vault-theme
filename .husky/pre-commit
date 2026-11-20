@@ -1,0 +1,4 @@
+# Runs after staging files and before entering a commit message. Exits non-zero to abort
+# the commit if staged file checks fail.
+
+npx lint-staged --config .lintstagedrc.yml

@@ -1,0 +1,6 @@
+# NOTE: In lint-staged '*' will also match hidden files (dot prefixes).
+
+'*.css':
+  - stylelint --ignore-path .lintignore --fix
+  - prettier --ignore-path .lintignore --write
+'!(*.css)': prettier --ignore-path .lintignore --ignore-unknown --write
