@@ -1,0 +1,74 @@
+name: Lint Commit Messages and PR Titles
+
+on:
+  push:
+    # Lint commits pushed to any branch (including newly created branches), while skipping
+    # tag-only pushes since tags contain no new commits.
+    tags-ignore: ['*']
+  pull_request:
+    # Include 'edited' alongside default triggers so updating a PR title re-runs the check
+    # (critical when using Squash and Merge, where the title becomes the commit).
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+# Cancel stale or duplicate runs for the same workflow and branch, scoped by:
+#   1. Workflow file path (stripped of '@refs/...') to prevent name collisions while
+#      matching PRs and pushes to the same group.
+#   2. Source repository, so external forks using identical branch names (e.g., 'main')
+#      don't cancel each other.
+#   3. Normalized branch name across pull_request and push events.
+concurrency:
+  group: ${{ split(github.workflow_ref, '@')[0] }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  lint-commits:
+    name: Lint Commit Messages
+    if: github.event_name == 'push' && github.event.deleted != true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check linting
+        uses: wagoid/commitlint-github-action@v6
+        with:
+          configFile: .commitlintrc.yml
+        env:
+          NODE_PATH: ${{ github.workspace }}/node_modules
+
+  lint-pr-title:
+    name: Lint PR Title
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check linting
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: echo "$PR_TITLE" | npx --no -- commitlint --config .commitlintrc.yml --verbose

@@ -1,0 +1,92 @@
+name: Release
+
+on:
+  push:
+    # Loose pre-filter for X.Y.Z tags: GitHub globs can't reject leading zeros in
+    # segments. The "Validate Version" step below does the strict check.
+    tags: ['[0-9]+.[0-9]+.[0-9]+']
+
+permissions:
+  contents: write
+
+jobs:
+  main:
+    name: Run Release Pipeline
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-tags: true
+          persist-credentials: false
+
+      - name: Validate Version
+        run: |
+          set -euo pipefail
+
+          # Constants
+          TAG="${GITHUB_REF_NAME}"
+          SEMVER_PATTERN='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
+
+          # Helpers
+          fail() { echo "::error::$1"; exit 1; }
+
+          # Verify build input files
+          [[ -f manifest.json ]] || fail "manifest.json not found."
+          [[ -f theme.css ]]     || fail "theme.css not found."
+
+          # Fetch manifest's version
+          MANIFEST_VERSION="$(jq -er .version manifest.json)" \
+            || fail "Manifest is not valid JSON or has no 'version' field."
+
+          # Assert commit tag is a normal Semver number and matches manifest's version
+          [[ $TAG =~ $SEMVER_PATTERN ]] \
+            || fail "Tag '$TAG' is not a normal version number 'X.Y.Z'."
+          [[ $TAG == "$MANIFEST_VERSION" ]] \
+            || fail "Tag '$TAG' does not match manifest version '$MANIFEST_VERSION'."
+
+          # Fetch highest version tag in history, excluding the current version
+          LAST_VERSION_MAX="$(
+            git tag --list | grep -E "$SEMVER_PATTERN" | grep -vxF "$TAG" | sort -V | tail -n1 \
+            || true
+          )"
+
+          # Ensure version tag is a true progression.
+          if [[ -n $LAST_VERSION_MAX ]]; then
+            # Validate non-initial release version
+            IFS=. read -r LAST_MAJOR LAST_MINOR LAST_PATCH <<< "$LAST_VERSION_MAX"
+            MAJOR_BUMPED_VERSION="$((LAST_MAJOR + 1)).0.0"
+            MINOR_BUMPED_VERSION="$LAST_MAJOR.$((LAST_MINOR + 1)).0"
+            PATCH_BUMPED_VERSION="$LAST_MAJOR.$LAST_MINOR.$((LAST_PATCH + 1))"
+            BUMPED_VERSIONS="$PATCH_BUMPED_VERSION, $MINOR_BUMPED_VERSION, $MAJOR_BUMPED_VERSION"
+            [[
+              $TAG == "$MAJOR_BUMPED_VERSION" ||
+              $TAG == "$MINOR_BUMPED_VERSION" ||
+              $TAG == "$PATCH_BUMPED_VERSION"
+            ]] || fail "Version '$TAG' must follow '$LAST_VERSION_MAX' with one of: $BUMPED_VERSIONS."
+          else
+            # Validate initial release version
+            [[ $TAG == "0.1.0" ]] || fail "First release should be 0.1.0 (got '$TAG')."
+          fi
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: node build.js -o dist --no-check
+
+      - name: Draft Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          THEME_DIR="dist/$(jq -er .name manifest.json)"
+
+          gh release create "$GITHUB_REF_NAME" \
+            "$THEME_DIR/manifest.json" "$THEME_DIR/theme.css" \
+            --draft --title "$GITHUB_REF_NAME" --verify-tag

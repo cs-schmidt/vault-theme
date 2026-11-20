@@ -1,0 +1,4 @@
+# Runs after a commit message is entered, receiving the message file path as $1. Exits
+# non-zero to abort the commit if the message fails validation.
+
+npx --no -- commitlint --config .commitlintrc.yml --edit $1
