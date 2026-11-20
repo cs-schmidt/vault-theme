@@ -1,5 +1,8 @@
-# Dependencies
-**/node_modules/
+# Builds
+dist/
 
-# Other
-**/.temp/
+# Dependencies
+node_modules/
+
+# Environment Vars
+.env
