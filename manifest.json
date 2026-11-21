@@ -1,1 +1,7 @@
-{ "name": "Vault Theme" }
+{
+  "name": "Vault",
+  "version": "0.1.0",
+  "minAppVersion": "1.6.0",
+  "author": "cs-schmidt",
+  "authorUrl": "https://github.com/cs-schmidt"
+}

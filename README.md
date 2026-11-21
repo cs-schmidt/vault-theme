@@ -31,14 +31,14 @@
 
 The theme doesn't bundle fonts. For the intended look, install these on your system:
 
-| Area      | Primary Font                                                                         | Fallback Fonts                                   |
-| --------- | ------------------------------------------------------------------------------------ | ------------------------------------------------ |
-| Interface | [IBM Plex Sans Condensed](https://fonts.google.com/specimen/IBM+Plex+Sans+Condensed) | [Jost](https://fonts.google.com/specimen/Jost)   |
-| Text      | [Chivo](https://fonts.google.com/specimen/Chivo)                                     | [Rubik](https://fonts.google.com/specimen/Rubik) |
-| Code      | [Source Code Pro](https://fonts.google.com/specimen/Source+Code+Pro)                 | None                                             |
+| Area      | Fonts                                                                                                                  |
+| --------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Interface | [IBM Plex Sans Condensed](https://fonts.google.com/specimen/IBM+Plex+Sans+Condensed)                                   |
+| Text      | [Chivo](https://fonts.google.com/specimen/Chivo), \*_[IBM Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)_ |
+| Code      | [Source Code Pro](https://fonts.google.com/specimen/Source+Code+Pro)                                                   |
 
-Fonts are tried left to right: the primary font, then its fallback, then Obsidian's
-default if neither is installed.
+\*IBM Plex Sans is used as both a fallback and patch for Chivo's incomplete/mismatched
+Greek case pairs.
 
 ## Development
 

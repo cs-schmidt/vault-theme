@@ -2,6 +2,66 @@
    Base
    ========================================================================== */
 
+/**
+ * Define font patch for Chivo's Greek characters.
+ *
+ * Routes Chivo's incomplete/mismatched case pairs to IBM Plex Sans:
+ * - U+0370-03FF: Greek & Coptic (Ω/ω, Π/π, Μ/µ, ∆/δ, etc.)
+ * - U+1F00-1FFF: Greek Extended (polytonic pairs)
+ * - U+2126:      Ohm Sign (Ω)
+ * - U+0180-024F: Latin Extended-B (asymmetric pairs like Ƒ/ƒ and uppercase Ə)
+ * - U+0250-02AF: IPA Extensions (lowercase ə to match Chivo's uppercase Ə)
+ */
+
+@font-face {
+  font-family: 'Chivo Greek Patch';
+  font-weight: 100;
+  src: local('IBM Plex Sans Thin'), local('IBMPlexSans-Thin');
+  unicode-range: U+0370-03FF, U+1F00-1FFF, U+2126, U+0180-024F, U+0250-02AF;
+}
+
+@font-face {
+  font-family: 'Chivo Greek Patch';
+  font-weight: 200;
+  src: local('IBM Plex Sans ExtraLight'), local('IBMPlexSans-ExtraLight');
+  unicode-range: U+0370-03FF, U+1F00-1FFF, U+2126, U+0180-024F, U+0250-02AF;
+}
+
+@font-face {
+  font-family: 'Chivo Greek Patch';
+  font-weight: 300;
+  src: local('IBM Plex Sans Light'), local('IBMPlexSans-Light');
+  unicode-range: U+0370-03FF, U+1F00-1FFF, U+2126, U+0180-024F, U+0250-02AF;
+}
+
+@font-face {
+  font-family: 'Chivo Greek Patch';
+  font-weight: 400;
+  src: local('IBM Plex Sans'), local('IBMPlexSans-Regular');
+  unicode-range: U+0370-03FF, U+1F00-1FFF, U+2126, U+0180-024F, U+0250-02AF;
+}
+
+@font-face {
+  font-family: 'Chivo Greek Patch';
+  font-weight: 500;
+  src: local('IBM Plex Sans Medium'), local('IBMPlexSans-Medium');
+  unicode-range: U+0370-03FF, U+1F00-1FFF, U+2126, U+0180-024F, U+0250-02AF;
+}
+
+@font-face {
+  font-family: 'Chivo Greek Patch';
+  font-weight: 600;
+  src: local('IBM Plex Sans SemiBold'), local('IBMPlexSans-SemiBold');
+  unicode-range: U+0370-03FF, U+1F00-1FFF, U+2126, U+0180-024F, U+0250-02AF;
+}
+
+@font-face {
+  font-family: 'Chivo Greek Patch';
+  font-weight: 700 900;
+  src: local('IBM Plex Sans Bold'), local('IBMPlexSans-Bold');
+  unicode-range: U+0370-03FF, U+1F00-1FFF, U+2126, U+0180-024F, U+0250-02AF;
+}
+
 body {
   /* Base Color Palette */
   --gs-l-max: 0.9219;
@@ -10,8 +70,8 @@ body {
   --gs-floor: oklch(var(--gs-l-min) 0 0deg);
 
   /* Typography */
-  --font-interface: 'IBM Plex Sans Condensed', 'Jost', var(--font-default);
-  --font-text: 'Chivo', 'Rubik', var(--font-default);
+  --font-interface: 'IBM Plex Sans Condensed', var(--font-default);
+  --font-text: 'Chivo Greek Patch', 'Chivo', 'IBM Plex Sans', var(--font-default);
   --font-monospace: 'Source Code Pro', var(--font-monospace-default);
   --font-scale-ratio: 1.11;
   --h1-size: calc(var(--font-text-size) * pow(var(--font-scale-ratio), 6));
@@ -30,11 +90,13 @@ body {
 
   /* Box Model */
   --radius-s: 4px;
+  --callout-radius: 8px;
 
   /* Window */
   --tab-font-size: var(--font-text-size);
 
   /* Editor */
+  --file-line-width: 700px;
   --file-margins-y: 24px;
   --metadata-padding: 0;
   --metadata-gap: 1px;
@@ -123,7 +185,7 @@ body {
 
   /* Editor Color Palette */
   --text-highlight-bg: transparent;
-  --code-background: var(--color-base-10);
+  --code-background: var(--color-base-15);
 
   /* Component Color Palette */
   --toggle-thumb-color: var(--color-base-05);
@@ -304,8 +366,7 @@ mark,
 /* Callouts
    ------------------------------------------------------ */
 
-/* TODO: Add color variations to callouts that fit with the theme (check light and dark
-         modes). */
+/* TODO: Add fitting color variations for callouts in light and dark modes. */
 
 .callout-title {
   padding: 8px 12px;
