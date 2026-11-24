@@ -70,4 +70,4 @@ jobs:
       - name: Check linting
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
-        run: echo "$PR_TITLE" | npx --no -- commitlint --config .commitlintrc.yml --verbose
+        run: echo "$PR_TITLE" | npx --no -- commitlint --config .commitlintrc.yml
