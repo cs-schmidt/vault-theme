@@ -93,8 +93,8 @@ const manifestSchema = Joi.object({
       'string.pattern.base':
         '"name" must be a chain of alphanumeric segments joined by hyphens or spaces.',
     }),
-  version: Joi.string().pattern(manifestVersionRegex),
-  minAppVersion: Joi.string().pattern(manifestVersionRegex),
+  version: Joi.string().pattern(manifestVersionRegex).required(),
+  minAppVersion: Joi.string().pattern(manifestVersionRegex).required(),
   author: Joi.string(),
   authorUrl: Joi.string().uri({ scheme: ['http', 'https'] }),
   fundingUrl: Joi.string().uri({ scheme: ['http', 'https'] }),
